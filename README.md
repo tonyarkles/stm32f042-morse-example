@@ -22,3 +22,10 @@ todo
 
 # OpenOCD
 
+OpenOCD provides access to the JTAG/SWD functionality provided by the
+integrated ST-Link/V2 interface on the Nucleo.
+
+$ sudo openocd -f /usr/share/openocd/scripts/board/st_nucleo_f0.cfg
+
+Awesome that there's already a pre-configured OpenOCD config for this board.
+
