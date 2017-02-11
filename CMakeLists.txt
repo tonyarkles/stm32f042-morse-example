@@ -1,7 +1,7 @@
 
 cmake_minimum_required(VERSION 2.8)
 
-project(bare_example C)
+project(bare_example C ASM)
 
 enable_testing()
 
