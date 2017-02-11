@@ -60,7 +60,18 @@ what takes our code and figures out where to position it in memory.
 
 We'll need to come back to this. Let's get the toolchain working first.
 
+http://www.valvers.com/open-software/raspberry-pi/step03-bare-metal-programming-in-c-pt3/
+
+```
+add_custom_command(
+  TARGET armc-010 POST_BUILD
+  COMMAND ${CMAKE_OBJCOPY} ./armc-010${CMAKE_EXECUTABLE_SUFFIX} -O binary ./kernel.img
+  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+  COMMENT "Convert the ELF output file to a binary image" )
+```
+
 # CMake
 
 The first goal is to get CMake to build both host-based tests and
-target-ready binaries. 
+target-ready binaries.
+
