@@ -25,7 +25,6 @@ SECTIONS
     *(.rodata*)
     . = ALIGN(4);
     _sidata = .;
-    
   } >FLASH
 
   .data :
