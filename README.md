@@ -176,4 +176,16 @@ references that look like `__bss_start__`, `_sdata`, `_edata`,
 etc. These are variables that the `startup_stm32f0xx.s` file looks
 for, which map to the different spots in flash and RAM.
 
+With the basic linker script in place, now it's time to start getting
+the hardware going. The startup file tries to call a function called
+`SystemInit` before calling `main`.
+
+# Starting up some hardware
+
+The `SystemInit` in the ST libraries initializes the bare minimum set
+of hardware required to start `main()`. Looking at the file provided
+by ST, this basically just turns on some clocks. Not worth
+re-implementing this, so I'll just import it and strip out all of the
+Windows newlines.
+
 
