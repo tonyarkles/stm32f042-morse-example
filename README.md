@@ -75,3 +75,5 @@ add_custom_command(
 The first goal is to get CMake to build both host-based tests and
 target-ready binaries.
 
+build-target$ cmake -DCMAKE_TOOLCHAIN_FILE=../toolchain-stm32f042.cmake ..
+
