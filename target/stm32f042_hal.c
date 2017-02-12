@@ -19,6 +19,12 @@
 #define gpiob_idr ((uint32_t*)(gpiob_base + 0x10))
 #define gpiob_odr ((uint32_t*)(gpiob_base + 0x14))
 
+#define systick_base (0xe000E010)
+#define systick_csr ((uint32_t*)(systick_base + 0x00))
+#define systick_rvr ((uint32_t*)(systick_base + 0x04))
+#define systick_cvr ((uint32_t*)(systick_base + 0x08))
+#define systick_calib ((uint32_t*)(systick_base + 0x0c))
+
 
 void hardware_init() {
   /* set up the LED port */
@@ -49,6 +55,13 @@ void hardware_init() {
   *gpiob_otyper |= led_otyper;
   *gpiob_ospeedr |= led_ospeedr;
   *gpiob_pupdr |= led_pupdr;
+
+  /* SysTick */
+  *systick_rvr = 8000; // systick runs at 8MHz (processor clock) ->
+		       // want a tick every 1ms -> 8e6/s * 1/0.001s =
+		       // 8000
+  *systick_cvr = 0; // reset the counter
+  *systick_csr |= (1 << 2) | (1 << 1) | (1 << 0); /* run from processor clock, enable tick interrupt, and enable counter */
 }
 
 void hardware_led_gpio(uint8_t val) {

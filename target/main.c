@@ -11,14 +11,16 @@ void HardFault_Handler() {
   while(1);
 }
 
+static uint32_t tick = 0;
+
+void SysTick_Handler(void) {
+  tick += 1;
+  hardware_led_gpio((tick/1000) % 2);
+}
+
 int main() {
   hardware_init();
-  int j = 0;
   while(1) {
-    hardware_led_gpio(j % 2);
-    j++;
-    for(i = 0; i < 100000; i++) {
-    }
   }
 }
 

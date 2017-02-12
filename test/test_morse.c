@@ -266,6 +266,15 @@ TEST(morse, all_tied_together) {
   }
 }
 
+TEST(morse, end_of_stream) {
+  morse_stream_set("FOO");
+  TEST_ASSERT_EQUAL('F', morse_stream_get());
+  TEST_ASSERT_EQUAL('O', morse_stream_get());
+  TEST_ASSERT_EQUAL('O', morse_stream_get());
+  TEST_ASSERT_EQUAL('\0', morse_stream_get());
+  TEST_ASSERT_EQUAL('\0', morse_stream_get());
+}
+
 TEST_GROUP_RUNNER(morse) {
   RUN_TEST_CASE(morse, output_engine_sets_state_for_count);
   RUN_TEST_CASE(morse, output_engine_toggles_state);
@@ -274,6 +283,7 @@ TEST_GROUP_RUNNER(morse) {
   RUN_TEST_CASE(morse, letter_converter_produces_correct_output_for_spaces);
   RUN_TEST_CASE(morse, letter_converter_produces_correct_output_for_digit);
   RUN_TEST_CASE(morse, stream_output);
+  RUN_TEST_CASE(morse, end_of_stream);
   RUN_TEST_CASE(morse, stream_letter_glued_together);
   RUN_TEST_CASE(morse, letter_and_output_glued_together);
   RUN_TEST_CASE(morse, all_tied_together);
