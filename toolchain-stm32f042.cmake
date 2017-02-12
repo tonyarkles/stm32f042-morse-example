@@ -11,7 +11,7 @@ set( CMAKE_SYSTEM_PROCESSOR     STM32F042 )
 
 # Set a toolchain path. You only need to set this if the toolchain isn't in
 # your system path. Don't forget a trailing path separator!
-set( TC_PATH "/home/aja042/x-tools/arm-unknown-eabi/bin/" )
+set( TC_PATH "$ENV{HOME}/x-tools/arm-stm32f0-eabi/bin/" )
 
 # The toolchain prefix for all toolchain executables
 set( CROSS_COMPILE arm-stm32f0-eabi- )
