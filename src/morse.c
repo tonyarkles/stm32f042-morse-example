@@ -61,8 +61,12 @@ static const char *alpha[] = {
   "----.", //9
 };
 
-void morse_reset() {
+static uint8_t output_state;
+static uint8_t output_count; 
 
+void morse_reset() {
+  output_state = 0;
+  output_count = 0;
 }
 
 /*******************************************************************************/
@@ -74,6 +78,13 @@ void morse_stream_letter_glue(void) {
   morse_letter_set(next_letter);
 }
 
+void morse_letter_output_glue(void) {
+  /* when we're done a symbol, grab the next symbol */
+  uint8_t output;
+  uint8_t count;
+  morse_letter_get_next_output(&output, &count);
+  morse_output_set(output, count);
+}
 
 /*******************************************************************************/
 /* Streamer */
@@ -161,8 +172,6 @@ void morse_letter_get_next_output(uint8_t* output, uint8_t* count) {
 /* Output functionality */
 
 static void (*output_callback)(void) = NULL;
-static uint8_t output_state;
-static uint8_t output_count;
 
 void morse_output_callback(void (*callback)(void)) {
   output_callback = callback;
@@ -178,9 +187,10 @@ uint8_t morse_output_get(void) {
 }
 
 void morse_output_tick(void) {
-  if (output_count >= 0) {
+  if (output_count > 0) {
     output_count--;
   }
+  /* if we're empty, try to get another one */
   if ((output_count == 0) && (output_callback != NULL)) {
     output_callback();
   }

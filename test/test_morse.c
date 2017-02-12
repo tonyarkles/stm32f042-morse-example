@@ -140,8 +140,42 @@ TEST(morse, stream_letter_glued_together) {
   /* T */
   morse_letter_get_next_output(&output, &count);
   TEST_ASSERT_EQUAL(1, output);
-  TEST_ASSERT_EQUAL(3, count);
+  TEST_ASSERT_EQUAL(3, count);  
+}
+
+TEST(morse, letter_and_output_glued_together) {
+  morse_output_callback(morse_letter_output_glue);
+  morse_letter_set('X');
+
+  /* X = -..- = 3 on, 1 off, 1 on, 1 off, 1 on, 1 off, 3 on */
+  morse_output_tick();
+  TEST_ASSERT_EQUAL(1, morse_output_get());
+  morse_output_tick();
+  TEST_ASSERT_EQUAL(1, morse_output_get());
+  morse_output_tick();
+  TEST_ASSERT_EQUAL(1, morse_output_get());
+
+  morse_output_tick();
+  TEST_ASSERT_EQUAL(0, morse_output_get());
   
+  morse_output_tick();
+  TEST_ASSERT_EQUAL(1, morse_output_get());
+  
+  morse_output_tick();
+  TEST_ASSERT_EQUAL(0, morse_output_get());
+  
+  morse_output_tick();
+  TEST_ASSERT_EQUAL(1, morse_output_get());
+  
+  morse_output_tick();
+  TEST_ASSERT_EQUAL(0, morse_output_get());
+  
+  morse_output_tick();
+  TEST_ASSERT_EQUAL(1, morse_output_get());
+  morse_output_tick();
+  TEST_ASSERT_EQUAL(1, morse_output_get());
+  morse_output_tick();
+  TEST_ASSERT_EQUAL(1, morse_output_get());
 }
 
 TEST_GROUP_RUNNER(morse) {
@@ -151,4 +185,5 @@ TEST_GROUP_RUNNER(morse) {
   RUN_TEST_CASE(morse, letter_converter_produces_correct_output_for_E);
   RUN_TEST_CASE(morse, stream_output);
   RUN_TEST_CASE(morse, stream_letter_glued_together);
+  RUN_TEST_CASE(morse, letter_and_output_glued_together);
 }
