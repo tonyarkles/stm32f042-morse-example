@@ -8,6 +8,7 @@ set(UNITY_FIXTURE_SRCS
 
 set(TEST_RUNNER_SRCS
   test_led_driver.c
+  test_morse.c
   testrunner.c)
 
 include_directories("${CMAKE_SOURCE_DIR}/external/unity/")

@@ -1,6 +1,7 @@
 
 set(SRCS
-  led_driver.c)
+  led_driver.c
+  morse.c)
 
 add_library (bare_example STATIC ${SRCS} )
 
