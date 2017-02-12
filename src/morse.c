@@ -70,10 +70,16 @@ static uint8_t letter_morse_idx;
 static uint8_t letter_or_space;
 static uint8_t letter_idle = 1;
 
+static uint8_t* stream_str;
+static uint8_t stream_offset;
+
 void morse_reset() {
   output_state = 0;
   output_count = 0;
 
+  stream_str = NULL;
+  stream_offset = 0;
+  
   current_letter_in_table = 0;
   letter_morse_idx = 0;
   letter_or_space = 0;
@@ -100,21 +106,31 @@ void morse_letter_output_glue(void) {
 /*******************************************************************************/
 /* Streamer */
 
-static uint8_t* stream_str;
-static uint8_t stream_offset;
-
 void morse_stream_set(const char* stream) {
   stream_str = (uint8_t*)stream;
   stream_offset = 0;
 }
 
 uint8_t morse_stream_get(void) {
+  if (stream_str == NULL) {
+    return 0;
+  }
   if (stream_str[stream_offset] == 0) {
     return 0;
   }
   uint8_t out = stream_str[stream_offset];
   stream_offset++;
   return out;
+}
+
+uint8_t morse_stream_empty(void) {
+  if (stream_str == NULL) {
+    return 1;
+  }
+  if (stream_str[stream_offset] == 0) {
+    return 1;
+  }
+  return 0;
 }
 
 

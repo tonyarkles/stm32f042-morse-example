@@ -17,6 +17,7 @@ void morse_letter_callback(void (*callback)(void));
 
 void morse_stream_set(const char* stream);
 uint8_t morse_stream_get(void);
+uint8_t morse_stream_empty(void);
 
 void morse_letter_output_glue(void);
 void morse_stream_letter_glue(void);

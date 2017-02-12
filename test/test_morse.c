@@ -275,6 +275,22 @@ TEST(morse, end_of_stream) {
   TEST_ASSERT_EQUAL('\0', morse_stream_get());
 }
 
+TEST(morse, no_stream_specified) {
+  TEST_ASSERT_EQUAL('\0', morse_stream_get());
+}
+
+TEST(morse, check_stream_empty) {
+  TEST_ASSERT_EQUAL(1, morse_stream_empty());
+  morse_stream_set("HI");
+  TEST_ASSERT_EQUAL(0, morse_stream_empty());
+  TEST_ASSERT_EQUAL(0, morse_stream_empty());
+  TEST_ASSERT_EQUAL(0, morse_stream_empty());
+  TEST_ASSERT_EQUAL('H', morse_stream_get());
+  TEST_ASSERT_EQUAL(0, morse_stream_empty());
+  TEST_ASSERT_EQUAL('I', morse_stream_get());
+  TEST_ASSERT_EQUAL(1, morse_stream_empty());
+}
+
 TEST_GROUP_RUNNER(morse) {
   RUN_TEST_CASE(morse, output_engine_sets_state_for_count);
   RUN_TEST_CASE(morse, output_engine_toggles_state);
@@ -284,6 +300,8 @@ TEST_GROUP_RUNNER(morse) {
   RUN_TEST_CASE(morse, letter_converter_produces_correct_output_for_digit);
   RUN_TEST_CASE(morse, stream_output);
   RUN_TEST_CASE(morse, end_of_stream);
+  RUN_TEST_CASE(morse, no_stream_specified);
+  RUN_TEST_CASE(morse, check_stream_empty);
   RUN_TEST_CASE(morse, stream_letter_glued_together);
   RUN_TEST_CASE(morse, letter_and_output_glued_together);
   RUN_TEST_CASE(morse, all_tied_together);
