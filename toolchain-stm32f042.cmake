@@ -14,7 +14,7 @@ set( CMAKE_SYSTEM_PROCESSOR     STM32F042 )
 set( TC_PATH "/home/aja042/x-tools/arm-unknown-eabi/bin/" )
 
 # The toolchain prefix for all toolchain executables
-set( CROSS_COMPILE arm-unknown-eabi- )
+set( CROSS_COMPILE arm-stm32f0-eabi- )
 
 # specify the cross compiler. We force the compiler so that CMake doesn't
 # attempt to build a simple test program as this will fail without us using
@@ -32,7 +32,7 @@ set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mlittle-endian" )
 set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mcpu=cortex-m0" )
 set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -march=armv6-m -mthumb" )
 set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ffunction-sections -fdata-sections" )
-set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wl,--gc-sections -D" )
+set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wl,--gc-sections" )
 
 # gc-sections garbage collects. 
 

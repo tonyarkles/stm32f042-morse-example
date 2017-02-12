@@ -1,3 +1,9 @@
 *~
 build/
 build-target/
+crosstool/.build/
+crosstool/.config	
+crosstool/.config.2
+crosstool/build.log
+crosstool/config
+crosstool/config.gen/
