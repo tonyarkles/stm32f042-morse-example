@@ -1,7 +1,8 @@
+#   startup_stm32f0xx.s
 
 set(SRCS
-  startup_stm32f0xx.s
   system_stm32f0xx.c
+  startup_ARMCM0.S
   main.c)
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/inc")

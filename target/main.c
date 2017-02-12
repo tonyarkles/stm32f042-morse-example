@@ -16,3 +16,7 @@ int main() {
     }
   }
 }
+
+void _exit(int code) {
+  for(;;) {}
+}

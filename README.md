@@ -434,3 +434,13 @@ It's big.
 http://www.bravegnu.org/gnu-eprog/data-in-ram.html
 
 Ok, so this is progress. Now I'm stuck at an invalid instruction in libc_init_array_from_thumb?!?
+
+Disabled the newlib syscalls. Seems to have helped.
+
+Now it somehow ends up just slightly before the flash start?! When jumping to main?
+
+Nope, that was deceptive. _start is jumping to a bad spot in memory. Why?
+
+It's hard coded at _start+2. Is this an alignment problem?! 0x080001f0 just flies off into space. Every other address seems ok?
+
+Jumps to 0x7fffd34

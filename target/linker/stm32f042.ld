@@ -8,6 +8,7 @@ MEMORY
 }
 
 _estack = 0x20001800;
+__stack = _estack;
 
 SECTIONS
 {
@@ -18,8 +19,14 @@ SECTIONS
     . = ALIGN(4);
   } >FLASH
 
+  .ARM.extab   : { *(.ARM.extab* .gnu.linkonce.armextab.*) } >FLASH
+   PROVIDE_HIDDEN (__exidx_start = .);
+  .ARM.exidx   : { *(.ARM.exidx* .gnu.linkonce.armexidx.*) } >FLASH
+   PROVIDE_HIDDEN (__exidx_end = .);
+
   .text :
   {
+    . = ALIGN(4);
     KEEP (*(SORT_NONE(.init)))
 
     /* copied from default linker script from gcc */
@@ -62,18 +69,18 @@ SECTIONS
 
     
 
-    _etext = .;
-    _sidata = _etext;
+    __etext = .;
+    _sidata = __etext;
   } >FLASH
 
   .data : AT (_sidata)
   {
      . = ALIGN(4);
-     __data_start = . ;
+     __data_start__ = . ;
      *(.data .data.* .gnu.linkonce.d.*)
      *(.data1)
      . = ALIGN(4);
-     __data_end = .; 
+     __data_end__ = .; 
   } >RAM
 
   .bss            :

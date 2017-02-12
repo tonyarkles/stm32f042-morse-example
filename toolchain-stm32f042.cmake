@@ -32,7 +32,7 @@ set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mlittle-endian" )
 set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mcpu=cortex-m0" )
 set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -march=armv6-m -mthumb" )
 set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ffunction-sections -fdata-sections" )
-set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wl,--gc-sections" )
+set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wl,--gc-sections -D" )
 
 # gc-sections garbage collects. 
 
