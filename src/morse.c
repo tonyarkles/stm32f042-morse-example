@@ -22,7 +22,6 @@
    fashion.
 */
 
-#if 0
 static const char *alpha[] = {
   ".-",   //A
   "-...", //B
@@ -61,11 +60,77 @@ static const char *alpha[] = {
   "---..", //8
   "----.", //9
 };
-#endif
 
 void morse_reset() {
 
 }
+
+/*******************************************************************************/
+/* Streamer */
+
+static uint8_t* stream_str;
+static uint8_t stream_offset;
+void morse_stream_set(const char* stream) {
+  stream_str = (uint8_t*)stream;
+  stream_offset = 0;
+}
+
+uint8_t morse_stream_get(void) {
+  if (stream_str[stream_offset] == 0) {
+    return 0;
+  }
+  uint8_t out = stream_str[stream_offset];
+  stream_offset++;
+  return out;
+}
+
+
+/*******************************************************************************/
+/* Letter Conversion */
+
+static uint8_t current_letter_in_table;
+static uint8_t letter_morse_idx;
+static uint8_t letter_or_space;
+static uint8_t letter_idle = 1;
+
+void morse_letter_set(uint8_t letter) {
+  current_letter_in_table = letter - 'A';
+  letter_morse_idx = 0;
+  letter_or_space = 0;
+  letter_idle = 0;
+}
+
+void morse_letter_get_next_output(uint8_t* output, uint8_t* count) {
+  if (letter_idle) {
+    *output = 0;
+    *count = 0;
+    return;
+  }
+  if (letter_or_space == 0) {
+    if (alpha[current_letter_in_table][letter_morse_idx] == '.') {
+      *output = 1;
+      *count = 1;
+    }
+    if (alpha[current_letter_in_table][letter_morse_idx] == '-') {
+      *output = 1;
+      *count = 3;
+    }
+    letter_morse_idx++;
+    letter_or_space = 1;
+  } else {
+    /* look at the next letter to decide */
+    if (alpha[current_letter_in_table][letter_morse_idx] != '\0') {
+      *output = 0;
+      *count = 1;
+    } else {
+      *output = 0;
+      *count = 3;
+      letter_idle = 1;
+    }
+    letter_or_space = 0;
+  }
+}
+
 
 /*******************************************************************************/
 /* Output functionality */
@@ -84,7 +149,7 @@ void morse_output_set(uint8_t output, uint8_t ticks) {
 }
 
 uint8_t morse_output_get(void) {
-  return 1;
+  return output_state;
 }
 
 void morse_output_tick(void) {
