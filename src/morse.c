@@ -66,10 +66,21 @@ void morse_reset() {
 }
 
 /*******************************************************************************/
+/* Glue */
+
+void morse_stream_letter_glue(void) {
+  /* when we're done a letter, grab the next one from the stream */
+  uint8_t next_letter = morse_stream_get();
+  morse_letter_set(next_letter);
+}
+
+
+/*******************************************************************************/
 /* Streamer */
 
 static uint8_t* stream_str;
 static uint8_t stream_offset;
+
 void morse_stream_set(const char* stream) {
   stream_str = (uint8_t*)stream;
   stream_offset = 0;
@@ -92,6 +103,11 @@ static uint8_t current_letter_in_table;
 static uint8_t letter_morse_idx;
 static uint8_t letter_or_space;
 static uint8_t letter_idle = 1;
+static void (*letter_callback)(void) = NULL;
+
+void morse_letter_callback(void (*callback)(void)) {
+  letter_callback = callback;
+}
 
 void morse_letter_set(uint8_t letter) {
   current_letter_in_table = letter - 'A';
@@ -102,9 +118,15 @@ void morse_letter_set(uint8_t letter) {
 
 void morse_letter_get_next_output(uint8_t* output, uint8_t* count) {
   if (letter_idle) {
-    *output = 0;
-    *count = 0;
-    return;
+    /* try the callback and check again */
+    if (letter_callback != NULL) {
+      letter_callback();
+    }
+    if (letter_idle) {
+      *output = 0;
+      *count = 0;
+      return;
+    }
   }
   if (letter_or_space == 0) {
     if (alpha[current_letter_in_table][letter_morse_idx] == '.') {
@@ -126,6 +148,9 @@ void morse_letter_get_next_output(uint8_t* output, uint8_t* count) {
       *output = 0;
       *count = 3;
       letter_idle = 1;
+      if (letter_callback != NULL) {
+	letter_callback();
+      }
     }
     letter_or_space = 0;
   }

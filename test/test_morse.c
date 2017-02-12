@@ -100,6 +100,47 @@ TEST(morse, stream_output) {
   TEST_ASSERT_EQUAL('A', morse_stream_get());
   TEST_ASSERT_EQUAL('Z', morse_stream_get());
   TEST_ASSERT_EQUAL('\0', morse_stream_get());
+}
+
+TEST(morse, stream_letter_glued_together) {
+  morse_letter_callback(morse_stream_letter_glue);
+  morse_stream_set("AET");
+
+  uint8_t output;
+  uint8_t count;
+  
+  /* A = .-, E = ., T = - */
+
+  /* A */
+  morse_letter_get_next_output(&output, &count);
+  TEST_ASSERT_EQUAL(1, output);
+  TEST_ASSERT_EQUAL(1, count);
+  morse_letter_get_next_output(&output, &count);
+  TEST_ASSERT_EQUAL(0, output);
+  TEST_ASSERT_EQUAL(1, count);
+  morse_letter_get_next_output(&output, &count);
+  TEST_ASSERT_EQUAL(1, output);
+  TEST_ASSERT_EQUAL(3, count);
+
+  /* inter-letter space */
+  morse_letter_get_next_output(&output, &count);
+  TEST_ASSERT_EQUAL(0, output);
+  TEST_ASSERT_EQUAL(3, count);
+
+  /* E */
+  morse_letter_get_next_output(&output, &count);
+  TEST_ASSERT_EQUAL(1, output);
+  TEST_ASSERT_EQUAL(1, count);
+
+  /* inter-letter space */
+  morse_letter_get_next_output(&output, &count);
+  TEST_ASSERT_EQUAL(0, output);
+  TEST_ASSERT_EQUAL(3, count);
+
+  /* T */
+  morse_letter_get_next_output(&output, &count);
+  TEST_ASSERT_EQUAL(1, output);
+  TEST_ASSERT_EQUAL(3, count);
   
 }
 
@@ -109,4 +150,5 @@ TEST_GROUP_RUNNER(morse) {
   RUN_TEST_CASE(morse, letter_converter_produces_correct_output_for_A);
   RUN_TEST_CASE(morse, letter_converter_produces_correct_output_for_E);
   RUN_TEST_CASE(morse, stream_output);
+  RUN_TEST_CASE(morse, stream_letter_glued_together);
 }
