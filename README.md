@@ -87,10 +87,23 @@ directory. The `.gitignore` file is already set up to ignore this
 directory. In there, you run CMake to process the `CMakeLists.txt` files and generate a Makefile. Then you run `make`.
 
 ```
-mkdir build
-cd build
-cmake ..
-make
+stm32f042-morse-example$ mkdir build
+stm32f042-morse-example$ cd build
+stm32f042-morse-example/build$ cmake ..
+-- The C compiler identification is GNU 5.4.0
+-- The ASM compiler identification is GNU
+-- Found assembler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/aja042/workspace/crosstool/stm32f042-morse-example/build
+stm32f042-morse-example/build$ make
+... lots of output ...
 ```
 
 Once this has finished, there's a unit test runner stored in
@@ -98,7 +111,13 @@ Once this has finished, there's a unit test runner stored in
 this:
 
 ```
-test/testrunner
+stm32f042-morse-example/build$ test/testrunner
+Unity test run 1 of 1
+..............
+
+-----------------------
+14 Tests 0 Failures 0 Ignored
+OK
 ```
 
 ## Building and flashing onto the microcontroller
