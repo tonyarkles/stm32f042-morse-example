@@ -136,8 +136,8 @@ build, so that we can easily see what's going on in GDB.
 stm32f042-morse-example$ mkdir build-target
 stm32f042-morse-example$ cd build-target
 stm32f042-morse-example/build-target$ cmake -DCMAKE_TOOLCHAIN_FILE=../toolchain-stm32f042.cmake -DCMAKE_BUILD_TYPE=Debug ..
-stm32f042-morse-example$ cmake -DCMAKE_TOOLCHAIN_FILE=../toolchain... -DCMAKE_BUILD_TYPE=Debug ..
-stm32f042-morse-example$ make
+stm32f042-morse-example/build-target$ cmake -DCMAKE_TOOLCHAIN_FILE=../toolchain... -DCMAKE_BUILD_TYPE=Debug ..
+stm32f042-morse-example/build-target$ make
 ```
 
 The output from this is going to be `target/target.elf`. This file
