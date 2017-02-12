@@ -59,6 +59,7 @@ static const char *alpha[] = {
   "--...", //7
   "---..", //8
   "----.", //9
+  " "
 };
 
 static uint8_t output_state;
@@ -127,7 +128,15 @@ void morse_letter_callback(void (*callback)(void)) {
 }
 
 void morse_letter_set(uint8_t letter) {
-  current_letter_in_table = letter - 'A';
+  if (('A' <= letter) && (letter <= 'Z')) {
+    current_letter_in_table = letter - 'A';
+  }
+  if (('0' <= letter) && (letter <= '9')) {
+    current_letter_in_table = 26 + (letter - '0');
+  }
+  if (letter == ' ') {
+    current_letter_in_table = 36; /* skip past 26 letters and 10 numbers */
+  }
   letter_morse_idx = 0;
   letter_or_space = 0;
   letter_idle = 0;
@@ -153,6 +162,10 @@ void morse_letter_get_next_output(uint8_t* output, uint8_t* count) {
     if (alpha[current_letter_in_table][letter_morse_idx] == '-') {
       *output = 1;
       *count = 3;
+    }
+    if (alpha[current_letter_in_table][letter_morse_idx] == ' ') {
+      *output = 0;
+      *count = 1;
     }
     letter_morse_idx++;
     letter_or_space = 1;

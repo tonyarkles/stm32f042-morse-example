@@ -85,6 +85,72 @@ TEST(morse, letter_converter_produces_correct_output_for_E) {
   TEST_ASSERT_EQUAL(3, count);  
 }
 
+TEST(morse, letter_converter_produces_correct_output_for_spaces) {
+  /* spaces should have 4 units of 0. The previous letter will have 3 already. */
+  uint8_t output;
+  uint8_t count;
+
+  morse_letter_set(' ');
+
+  morse_letter_get_next_output(&output, &count);
+  TEST_ASSERT_EQUAL(0, output);
+  TEST_ASSERT_EQUAL(1, count);
+
+  morse_letter_get_next_output(&output, &count);
+  TEST_ASSERT_EQUAL(0, output);
+  TEST_ASSERT_EQUAL(3, count);  
+}
+
+TEST(morse, letter_converter_produces_correct_output_for_digit) {
+  /* spaces should have 4 units of 0. The previous letter will have 3 already. */
+  uint8_t output;
+  uint8_t count;
+
+  morse_letter_set('3');
+
+  morse_letter_get_next_output(&output, &count);
+  TEST_ASSERT_EQUAL(1, output);
+  TEST_ASSERT_EQUAL(1, count);
+
+  morse_letter_get_next_output(&output, &count);
+  TEST_ASSERT_EQUAL(0, output);
+  TEST_ASSERT_EQUAL(1, count);
+
+  morse_letter_get_next_output(&output, &count);
+  TEST_ASSERT_EQUAL(1, output);
+  TEST_ASSERT_EQUAL(1, count);
+  
+  morse_letter_get_next_output(&output, &count);
+  TEST_ASSERT_EQUAL(0, output);
+  TEST_ASSERT_EQUAL(1, count);
+  
+  morse_letter_get_next_output(&output, &count);
+  TEST_ASSERT_EQUAL(1, output);
+  TEST_ASSERT_EQUAL(1, count);
+
+  morse_letter_get_next_output(&output, &count);
+  TEST_ASSERT_EQUAL(0, output);
+  TEST_ASSERT_EQUAL(1, count);
+  
+  morse_letter_get_next_output(&output, &count);
+  TEST_ASSERT_EQUAL(1, output);
+  TEST_ASSERT_EQUAL(3, count);
+
+  morse_letter_get_next_output(&output, &count);
+  TEST_ASSERT_EQUAL(0, output);
+  TEST_ASSERT_EQUAL(1, count);
+
+  morse_letter_get_next_output(&output, &count);
+  TEST_ASSERT_EQUAL(1, output);
+  TEST_ASSERT_EQUAL(3, count);
+
+  morse_letter_get_next_output(&output, &count);
+  TEST_ASSERT_EQUAL(0, output);
+  TEST_ASSERT_EQUAL(3, count);
+}
+
+
+
 TEST(morse, stream_output) {
   morse_stream_set("FOO BAR BAZ");
 
@@ -205,6 +271,8 @@ TEST_GROUP_RUNNER(morse) {
   RUN_TEST_CASE(morse, output_engine_toggles_state);
   RUN_TEST_CASE(morse, letter_converter_produces_correct_output_for_A);
   RUN_TEST_CASE(morse, letter_converter_produces_correct_output_for_E);
+  RUN_TEST_CASE(morse, letter_converter_produces_correct_output_for_spaces);
+  RUN_TEST_CASE(morse, letter_converter_produces_correct_output_for_digit);
   RUN_TEST_CASE(morse, stream_output);
   RUN_TEST_CASE(morse, stream_letter_glued_together);
   RUN_TEST_CASE(morse, letter_and_output_glued_together);
