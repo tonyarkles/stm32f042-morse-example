@@ -32,10 +32,9 @@ set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mlittle-endian" )
 set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mcpu=cortex-m0" )
 set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -march=armv6-m -mthumb" )
 set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ffunction-sections -fdata-sections" )
+set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wl,--gc-sections" )
 
-# NOTE: the makefile also had "-Wl,--gc-sections
-# -Wl,-Map=$(PROJ_NAME).map" but I'm not sure if that's appropriate
-# here.
+# gc-sections garbage collects. 
 
 set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS}" CACHE STRING "" )
 set( CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS}" CACHE STRING "" )

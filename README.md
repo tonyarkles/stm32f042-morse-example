@@ -425,5 +425,12 @@ What do I get if I don't use my linker script? Without my linker script, I get u
 - _ebss
 - _estack
 
-These are all in the startup file. Can these be fixed to point to the symbols in the stock linker script instead?
+These are all in the startup file. Can these be fixed to point to the
+symbols in the stock linker script instead? Adding "-Wl,-verbose" to
+the linker command dumps out the linker script it's using.
 
+It's big.
+
+http://www.bravegnu.org/gnu-eprog/data-in-ram.html
+
+Ok, so this is progress. Now I'm stuck at an invalid instruction in libc_init_array_from_thumb?!?
