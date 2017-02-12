@@ -64,9 +64,19 @@ static const char *alpha[] = {
 static uint8_t output_state;
 static uint8_t output_count; 
 
+static uint8_t current_letter_in_table;
+static uint8_t letter_morse_idx;
+static uint8_t letter_or_space;
+static uint8_t letter_idle = 1;
+
 void morse_reset() {
   output_state = 0;
   output_count = 0;
+
+  current_letter_in_table = 0;
+  letter_morse_idx = 0;
+  letter_or_space = 0;
+  letter_idle = 1;
 }
 
 /*******************************************************************************/
@@ -110,10 +120,6 @@ uint8_t morse_stream_get(void) {
 /*******************************************************************************/
 /* Letter Conversion */
 
-static uint8_t current_letter_in_table;
-static uint8_t letter_morse_idx;
-static uint8_t letter_or_space;
-static uint8_t letter_idle = 1;
 static void (*letter_callback)(void) = NULL;
 
 void morse_letter_callback(void (*callback)(void)) {

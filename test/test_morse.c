@@ -178,6 +178,28 @@ TEST(morse, letter_and_output_glued_together) {
   TEST_ASSERT_EQUAL(1, morse_output_get());
 }
 
+TEST(morse, all_tied_together) {
+  morse_output_callback(morse_letter_output_glue);
+  morse_letter_callback(morse_stream_letter_glue);
+  morse_stream_set("HELLO");
+
+  uint8_t expected_output = 1;
+  /* these will toggle every time - S = ... = 1 (on), 1 (off), 1 (on), 1 (off), 1 (on), 3 (off) */
+  uint8_t expected_durations[] = { 1, 1, 1, 1, 1, 1, 1, 3, // H
+				   1, 3, // E
+				   1, 1, 3, 1, 1, 1, 1, 3, // L
+				   1, 1, 3, 1, 1, 1, 1, 3, // L
+				   3, 1, 3, 1, 3, 3, // O
+				   0 };
+  for(int i = 0; expected_durations[i] != 0; i++) {
+    for(int j = 0; j < expected_durations[i]; j++) {
+      morse_output_tick();
+      TEST_ASSERT_EQUAL(expected_output, morse_output_get());
+    }
+    expected_output = !expected_output;
+  }
+}
+
 TEST_GROUP_RUNNER(morse) {
   RUN_TEST_CASE(morse, output_engine_sets_state_for_count);
   RUN_TEST_CASE(morse, output_engine_toggles_state);
@@ -186,4 +208,5 @@ TEST_GROUP_RUNNER(morse) {
   RUN_TEST_CASE(morse, stream_output);
   RUN_TEST_CASE(morse, stream_letter_glued_together);
   RUN_TEST_CASE(morse, letter_and_output_glued_together);
+  RUN_TEST_CASE(morse, all_tied_together);
 }
