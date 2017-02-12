@@ -31,9 +31,9 @@ stm32f042-morse-example/crosstool$ DEFCONFIG=stm32f0-defconfig ct-ng defconfig
 stm32f042-morse-example/crosstool$ ct-ng build
 ```
 
-This will take a while. On my i7 desktop, it took XXX minutes.
+This will take a while. On my i7 desktop, it took about 16  minutes.
 
-This will install the toolchain into `~/x-tools/arm-stm32f0-XXX`
+This will install the toolchain into `~/x-tools/arm-stm32f0-eabi`.
 
 ## OpenOCD
 
